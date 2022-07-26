@@ -1,5 +1,9 @@
-from flask import Blueprint, render_template, request
+from flask import Blueprint, render_template, request, send_from_directory
 from functions import get_search_result
+import logging
+
+UPLOAD_FOLDER = "uploads/images"
+
 
 # Затем создаем новый блюпринт, выбираем для него имя
 main_blueprint = Blueprint('main_blueprint', __name__)
@@ -16,3 +20,8 @@ def get_search_result_page():
     search_key = request.args['s']
     search_results = get_search_result(search_key)
     return render_template('post_list.html', search_param=search_key, search_results=search_results)
+
+
+@main_blueprint.route("/search/<path:path>")
+def show_image(path):
+    return send_from_directory("", path)

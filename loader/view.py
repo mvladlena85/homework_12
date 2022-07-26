@@ -1,5 +1,4 @@
 from flask import Blueprint, render_template, request, send_from_directory
-
 from functions import save_post
 
 UPLOAD_FOLDER = "uploads/images"
@@ -20,7 +19,9 @@ def upload_data():
     path = f"{UPLOAD_FOLDER}/{filename}"
     picture.save(path)
     save_post(path, text)
+    return render_template('post_uploaded.html', img=filename, text=text)
 
-    return render_template('post_uploaded.html', img="https://images.unsplash.com/photo-1525351326368-efbb5cb6814d"
-                                                     "?ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&ixlib=rb-1.2"
-                                                     ".1&auto=format&fit=crop&w=580&q=80", text=text)
+
+@loader_blueprint.route("/post_uploaded/<path:path>")
+def show_image(path):
+    return send_from_directory(UPLOAD_FOLDER, path)
