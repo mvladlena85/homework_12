@@ -8,7 +8,9 @@ UPLOAD_FOLDER = "uploads/images"
 
 app = Flask(__name__)
 
+# Регистрируем блюпринты
 app.register_blueprint(main_blueprint)
 app.register_blueprint(loader_blueprint)
 
+# Запускаем приложение
 app.run()

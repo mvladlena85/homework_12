@@ -13,11 +13,13 @@ loader_blueprint = Blueprint('loader_blueprint', __name__)
 
 @loader_blueprint.route("/post/", methods=["GET"])
 def add_post_page():
+    """Страница добавления поста"""
     return render_template('post_form.html')
 
 
 @loader_blueprint.route("/post_uploaded/", methods=["POST"])
 def upload_data():
+    """Страница успешной загрузки поста"""
     picture = request.files.get("picture")
     text = request.values.get("content")
     filename = secure_filename(picture.filename)
@@ -38,4 +40,5 @@ def upload_data():
 
 @loader_blueprint.route("/post_uploaded/<path:path>")
 def show_image(path):
+    """Загрузка картинки из файлохранилища"""
     return send_from_directory(UPLOAD_FOLDER, path)
