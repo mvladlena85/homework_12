@@ -1,6 +1,6 @@
 from flask import Blueprint, render_template, request, send_from_directory
 from functions import get_search_result
-import logging
+from logger import logger
 
 UPLOAD_FOLDER = "uploads/images"
 
@@ -19,6 +19,7 @@ def main_page():
 def get_search_result_page():
     search_key = request.args['s']
     search_results = get_search_result(search_key)
+    logger.info(f'Запрос на поиск по фразе "{search_key}"')
     return render_template('post_list.html', search_param=search_key, search_results=search_results)
 
 
