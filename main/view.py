@@ -6,7 +6,7 @@ UPLOAD_FOLDER = "uploads/images"
 
 
 # Затем создаем новый блюпринт, выбираем для него имя
-main_blueprint = Blueprint('main_blueprint', __name__)
+main_blueprint = Blueprint('main_blueprint', __name__, template_folder='templates')
 
 
 # Создаем вьюшку, используя в декораторе блюпринт вместо app
