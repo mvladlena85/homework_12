@@ -24,9 +24,10 @@ def upload_data():
     picture = request.files.get("picture")
     text = request.values.get("content")
     filename = secure_filename(picture.filename)
+    logger.info(f"{filename}")
     if filename != '':
         file_ext = os.path.splitext(filename)[1]
-        if file_ext not in 'UPLOAD_EXTENSIONS':
+        if file_ext.lower() not in ALLOWED_EXTENSIONS:
             logger.info("Файл - не картинка")
             return render_template('post_form.html', text="Файл - не картинка, попробуйте еще раз")
 
@@ -34,13 +35,13 @@ def upload_data():
     try:
         picture.save(path)
         save_post(path, text)
-        return render_template('post_uploaded.html', img=filename, text=text)
+        return render_template('post_uploaded.html', img=path, text=text)
     except OSError:
         logger.error("Ошибка при загрузке файла")
         return render_template('post_form.html', text="Ошибка при загрузке поста, попробуйте еще раз")
 
 
-@loader_blueprint.route("/post_uploaded/<path:path>")
+@loader_blueprint.route("/post/<path:path>")
 def show_image(path):
     """Загрузка картинки из файлохранилища"""
-    return send_from_directory(UPLOAD_FOLDER, path)
+    return send_from_directory("", path)
